@@ -47,7 +47,7 @@ public:
 private:
     // typical behaviour methods
     void cycleThroughPhases();
-    
+
     TrafficLightPhase _currentPhase;
 
     // FP.4b : create a private member of type MessageQueue for messages of type TrafficLightPhase 
