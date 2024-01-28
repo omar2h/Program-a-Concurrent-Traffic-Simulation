@@ -70,17 +70,16 @@ void TrafficLight::cycleThroughPhases()
 
     while(true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        long timeSinceLastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastUpdate).count();
+        long timeSinceLastUpdate = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - lastUpdate).count();
         if (timeSinceLastUpdate >= cycleDuration) {
             _currentPhase = (getCurrentPhase() == TrafficLightPhase::red ? 
-                _currentPhase = TrafficLightPhase::green : 
-                    _currentPhase = TrafficLightPhase::red);
+                TrafficLightPhase::green : TrafficLightPhase::red);
 
             _messages.send(std::move(getCurrentPhase()));
 
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_real_distribution<double> dis(4.0, 6.0);
+            std::uniform_real_distribution<double> dis(4, 6);
             cycleDuration = dis(gen);
             lastUpdate = std::chrono::system_clock::now();
         }
