@@ -12,8 +12,9 @@ T MessageQueue<T>::receive()
     // The received object should then be returned by the receive function.
     std::unique_lock<std::mutex> ulock{_mutex};
     _condition.wait(ulock, [this] { return !_queue.empty(); });
-    T msg = std::move(_messages.back());
-    _messages.pop_back();
+    T msg = std::move(_queue.back());
+    _queue.pop_back();
+    return msg;
 }
 
 template <typename T>
